@@ -84,9 +84,13 @@ choices.forEach((choice) => {
     choice.addEventListener('click', (e) => {
         if (!acceptingAnswers) return;
 
+        //not accepting answers yet
         acceptingAnswers = false;
+        //makes the selceted choice the event target of the mouse click
         const selectedChoice = e.target;
+        //The selected answer is the selected choices data-number retrieved from the HTML
         const selectedAnswer = selectedChoice.dataset['number'];
+        //will load new question after a selection is made
         getNewQuestion();
     });
 });
