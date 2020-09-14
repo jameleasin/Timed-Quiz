@@ -42,6 +42,9 @@ h3 {
     font-weight: 200;
 }
 
+
+/*Utilities*/
+
 .container {
     width: 100vw;
     height: 100vh;
