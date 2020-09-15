@@ -31,5 +31,5 @@
       //puts the high scores into the local storage and puts them into a string
       localStorage.setItem('highScores', JSON.stringify(highScores));
       //returns to home page once done
-      window.location.assign('/');
+      window.location.assign('index.html');
   };
