@@ -3,6 +3,9 @@ console.log("hello");
 const question = document.getElementById('question');
 //array.from will parse html selections into an array
 const choices = Array.from(document.getElementsByClassName('choice-text'));
+//for HUD
+var questionCounterText = document.getElementById("questioncounter");
+var scoreText = document.getElementById("score");
 
 let currentQuestion = {};
 //stops user answering questions before page is loaded
@@ -54,12 +57,16 @@ startGame = () => {
 getNewQuestion = () => {
     if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
         //go to the end page
-        return window.location.assign('/end.html');
+        return window.location.assign('end.html');
     }
+
 
     //the question counter starts at 0 and increments; questionIndex goes through the array of questions and chooses one at random according the the length of the array
     //currentQuestion will be from the available question array; The question variable will change the text in the html into the cuurent question retrieved from the function just run.
     questionCounter++;
+
+    //for HUD, displays what questions the user is one out of the maximum questions in the quiz
+    questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
     const questionIndex = Math.floor(Math.random() * availableQuesions.length);
     //reference current question by getting the question out of the array
     currentQuestion = availableQuesions[questionIndex];
