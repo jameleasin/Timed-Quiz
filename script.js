@@ -4,7 +4,7 @@ const question = document.getElementById('question');
 //array.from will parse html selections into an array
 const choices = Array.from(document.getElementsByClassName('choice-text'));
 //for HUD
-var questionCounterText = document.getElementById("questioncounter");
+var questionCounterText = document.getElementById("questionCounter");
 var scoreText = document.getElementById("score");
 
 let currentQuestion = {};
@@ -56,6 +56,8 @@ startGame = () => {
 //if there are no more available questions OR the questions have reached the end of MAX_QUESTIONS (3) then the game is ended and a new window will open for the end of quiz.
 getNewQuestion = () => {
     if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+        //takes the most recent score and saves score into that value
+        localStorage.setItem('mostRecentScore', score);
         //go to the end page
         return window.location.assign("end.html");
     }
@@ -99,7 +101,27 @@ choices.forEach((choice) => {
         const selectedAnswer = selectedChoice.dataset['number'];
         //will load new question after a selection is made
         getNewQuestion();
+
+        //if the answer is correct the score will increment by the CORRECT_BONUS variable
+        const classToApply =
+            selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+        if (classToApply === "correct") {
+            incrementScore(CORRECT_BONUS);
+        }
+
+        selectedChoice.parentElement.classList.add(classToApply);
+
+        setTimeout(() => {
+            selectedChoice.parentElement.classList.remove(classToApply);
+            getNewQuestion();
+        }, 1000);
     });
 });
+
+incrementScore = num => {
+    score += num;
+    scoreText.innerText = score;
+};
 
 startGame();
