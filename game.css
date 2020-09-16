@@ -52,3 +52,12 @@
       background-color: #56a5eb;
       width: 0%;
   }
+  
+  #count {
+      width: 20rem;
+      height: 4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 5.4rem;
+      color: #56A5EB;
+  }
