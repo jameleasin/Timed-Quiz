@@ -1,10 +1,9 @@
-//gets reference from html
-var highScoresList = getElementById('highScoresList');
-var highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+const highScoresList = document.getElementById("highScoresList");
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
+//built in javascript to iterate through the element in insertion order
 highScoresList.innerHTML = highScores
-    //iterate through scores, .map takes the array and allows it to be turned into something else
-highScores.map(score => {
+    .map(score => {
         return `<li class="high-score">${score.name} - ${score.score}</li>`;
     })
     .join("");
