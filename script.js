@@ -9,7 +9,6 @@ let score = 0;
 let questionCounter = 0;
 let availableQuesions = [];
 var count = 30;
-var INCORRECT_BONUS = 5;
 
 //hard codes questions and answers, choices for the questions are given numbers in html and are called upon using data-number
 let questions = [{
@@ -35,12 +34,28 @@ let questions = [{
         choice3: "msg('Hello World');",
         choice4: "alert('Hello World');",
         answer: 4
+    },
+    {
+        question: " How do you select a class when writing Javascript",
+        choice1: "#",
+        choice2: "selectClass",
+        choice3: "class.select",
+        choice4: "(#)",
+        answer: 1
+    },
+    {
+        question: "What does stopPropagation(); do in Javascript",
+        choice1: "stops the page from loading",
+        choice2: "stops events",
+        choice3: "stops the bubbling of an event to parent elements",
+        choice4: "stops functions working",
+        answer: 3
     }
 ];
 
 //CONSTANTS
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+const MAX_QUESTIONS = 5;
 
 startGame = () => {
     //timer starts at 30 secs
