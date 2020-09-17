@@ -8,6 +8,8 @@ let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
 let availableQuesions = [];
+var count = 30;
+var INCORRECT_BONUS = 5;
 
 //hard codes questions and answers, choices for the questions are given numbers in html and are called upon using data-number
 let questions = [{
@@ -41,17 +43,48 @@ const CORRECT_BONUS = 10;
 const MAX_QUESTIONS = 3;
 
 startGame = () => {
-    var count = 15;
-    var interval = setInterval(function() {
+    //timer starts at 30 secs
+    var count = 30;
+    var time = setInterval(myTimer, 1000);
+    //timer decrements by 1
+    function myTimer() {
         document.getElementById('count').innerHTML = count;
         count--;
-        if (count === 0) {
-            clearInterval(interval);
-            document.getElementById('count').innerHTML = 'Done';
-            // or...
-            alert("You're out of time!");
+        //when timer is less than 1 an alert shows and time is up
+        if (count == -1) {
+            clearInterval(time);
+            alert("Time out!! :(");
         }
-    }, 1000);
+    };
+
+    //Were the choices are allocated an event listener and correct and incorrect are decided
+    //an event listener is given to a mouse click, if the page is not accepting answers the answers clicked will not be coonsidered
+    choices.forEach(choice => {
+        choice.addEventListener("click", e => {
+            if (!acceptingAnswers) return;
+            //when the selected choice is targeted it used the data-number in the html
+            acceptingAnswers = false;
+            const selectedChoice = e.target;
+            const selectedAnswer = selectedChoice.dataset["number"];
+
+            const classToApply =
+                selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+            //if the selected choice is incorrect the score does not incriment and the question is timed out, then a new question is displayed
+            if (classToApply === "correct") {
+                incrementScore(CORRECT_BONUS);
+            } else if (classToApply === "incorrect") {
+                count -= 5;
+            };
+
+            //classToApply is added to the selected choices parent elements class list 
+            selectedChoice.parentElement.classList.add(classToApply);
+
+            setTimeout(() => {
+                selectedChoice.parentElement.classList.remove(classToApply);
+                getNewQuestion();
+            }, 1000);
+        });
+    });
     questionCounter = 0;
     score = 0;
     availableQuesions = [...questions];
@@ -85,31 +118,9 @@ getNewQuestion = () => {
     availableQuesions.splice(questionIndex, 1);
     acceptingAnswers = true;
 };
-//an event listener is given to a mouse click, if the page is not accepting answers the answers clicked will not be coonsidered
-choices.forEach(choice => {
-    choice.addEventListener("click", e => {
-        if (!acceptingAnswers) return;
-        //when the selected choice is tergeted it used the data-number
-        acceptingAnswers = false;
-        const selectedChoice = e.target;
-        const selectedAnswer = selectedChoice.dataset["number"];
-        //if the current questions answer is correct increment score by correct bonus
-        const classToApply =
-            selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
 
-        if (classToApply === "correct") {
-            incrementScore(CORRECT_BONUS);
-        }
 
-        selectedChoice.parentElement.classList.add(classToApply);
-        //if the selected choice is incorrect the score does not incriment and the question is timed out, then a new question is displayed
-        setTimeout(() => {
-            selectedChoice.parentElement.classList.remove(classToApply);
-            getNewQuestion();
-        }, 1000);
-    });
-});
-//score increment changes the score text in thre html
+//score increment changes the score text in the html
 incrementScore = num => {
     score += num;
     scoreText.innerText = score;
