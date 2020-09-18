@@ -1,6 +1,6 @@
 # Timed-Quiz
 <p>
-<img src = "images/home.jpg" width = "250"></p>
+<img src = "home.jpg" width = "250"></p>
 
 
 
